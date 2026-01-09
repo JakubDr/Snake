@@ -15,8 +15,7 @@ class Snake {
   }
 
   grow() {
-    const tail = this.body[this.body.length - 1];
-    this.body.push({ ...tail });
+    this.body.push({ ...this.body[this.body.length - 1] });
   }
 
   draw(ctx, size) {
