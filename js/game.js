@@ -1,66 +1,50 @@
 class Game {
   constructor() {
-    this.canvas = document.getElementById("game");
+    this.canvas = document.getElementById("gameCanvas");
     this.ctx = this.canvas.getContext("2d");
-    this.size = 25;
-    this.reset();
-  }
 
-  reset() {
     this.snake = new Snake();
-    this.food = this.randomFood();
+    this.food = new Food(20, this.canvas.width, this.canvas.height);
     this.score = 0;
-    this.speed = 130;
     this.running = true;
-    clearInterval(this.loop);
-    this.loop = setInterval(() => this.update(), this.speed);
-  }
 
-  randomFood() {
-    const types = ["normal", "bonus", "slow"];
-    return new Food(types[Math.floor(Math.random() * types.length)]);
+    this.loop = setInterval(() => this.update(), 120);
   }
 
   update() {
-    this.ctx.clearRect(0, 0, 500, 500);
+    if (!this.running) return;
+
     this.snake.move();
 
-    const head = this.snake.body[0];
-
-    // kolize se zdí
-    if (head.x < 0 || head.y < 0 || head.x >= 20 || head.y >= 20) {
-      this.gameOver();
-      return;
+    if (this.snake.eat(this.food)) {
+      this.food.spawn();
+      this.score++;
+      document.getElementById("score").textContent = this.score;
     }
 
-    // jídlo
-    if (head.x === this.food.x && head.y === this.food.y) {
-      this.snake.grow();
-
-      if (this.food.type === "bonus") this.score += 3;
-      else this.score++;
-
-      if (this.food.type === "slow") {
-        this.speed += 20;
-        clearInterval(this.loop);
-        this.loop = setInterval(() => this.update(), this.speed);
-      }
-
-      this.food = this.randomFood();
+    if (
+      this.snake.hitWall(this.canvas.width, this.canvas.height) ||
+      this.snake.hitSelf()
+    ) {
+      this.running = false;
+      alert("💀 Konec hry! Skóre: " + this.score);
     }
 
-    this.food.draw(this.ctx, this.size);
-    this.snake.draw(this.ctx, this.size);
-
-    this.ctx.fillStyle = "#e5e7eb";
-    this.ctx.fillText("Skóre: " + this.score, 10, 20);
+    this.draw();
   }
 
-  gameOver() {
-    clearInterval(this.loop);
-    this.ctx.fillStyle = "white";
-    this.ctx.font = "20px Arial";
-    this.ctx.fillText("GAME OVER (R = restart)", 110, 250);
+  draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.food.draw(this.ctx);
+    this.snake.draw(this.ctx);
+  }
+
+  restart() {
+    this.snake.reset();
+    this.food.spawn();
+    this.score = 0;
+    this.running = true;
+    document.getElementById("score").textContent = 0;
   }
 }
 

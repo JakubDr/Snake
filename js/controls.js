@@ -1,4 +1,8 @@
 document.addEventListener("keydown", e => {
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+    e.preventDefault();
+  }
+
   if (!game || !game.snake) return;
 
   if (e.key === "ArrowUp" && game.snake.dy === 0) {
@@ -19,9 +23,5 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight" && game.snake.dx === 0) {
     game.snake.dx = 1;
     game.snake.dy = 0;
-  }
-
-  if (e.key === "r" || e.key === "R") {
-    game.reset();
   }
 });

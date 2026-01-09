@@ -2,19 +2,24 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <title>Snake</title>
+  <title>Snake Game</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h1>🐍 Snake</h1>
-<p>Šipky – pohyb | R – restart</p>
+  <h1>🐍 Snake Game</h1>
+  <p>Ovládání: šipky ⬆️ ⬇️ ⬅️ ➡️</p>
 
-<canvas id="game" width="500" height="500"></canvas>
+  <canvas id="gameCanvas" width="500" height="500"></canvas>
 
-<script src="js/snake.js"></script>
-<script src="js/food.js"></script>
-<script src="js/controls.js"></script>
-<script src="js/game.js"></script>
+  <div id="info">
+    <span>Skóre: <strong id="score">0</strong></span>
+    <button onclick="game.restart()">Restart</button>
+  </div>
+
+  <script src="js/snake.js"></script>
+  <script src="js/food.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/controls.js"></script>
 </body>
 </html>

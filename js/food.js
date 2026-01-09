@@ -1,27 +1,28 @@
 class Food {
-  constructor(type = "normal") {
-    this.x = Math.floor(Math.random() * 20);
-    this.y = Math.floor(Math.random() * 20);
-    this.type = type;
+  constructor(size, width, height) {
+    this.size = size;
+    this.width = width;
+    this.height = height;
+    this.spawn();
   }
 
-  draw(ctx, size) {
-    if (this.type === "normal") ctx.fillStyle = "#ef4444";
-    if (this.type === "bonus") ctx.fillStyle = "#facc15";
-    if (this.type === "slow") ctx.fillStyle = "#38bdf8";
+  spawn() {
+    this.x =
+      Math.floor(Math.random() * (this.width / this.size)) * this.size;
+    this.y =
+      Math.floor(Math.random() * (this.height / this.size)) * this.size;
+  }
 
-    ctx.shadowBlur = 15;
-    ctx.shadowColor = ctx.fillStyle;
-
+  draw(ctx) {
+    ctx.fillStyle = "red";
     ctx.beginPath();
     ctx.arc(
-      this.x * size + size / 2,
-      this.y * size + size / 2,
-      size / 2.5,
+      this.x + this.size / 2,
+      this.y + this.size / 2,
+      this.size / 2,
       0,
       Math.PI * 2
     );
     ctx.fill();
-    ctx.shadowBlur = 0;
   }
 }
