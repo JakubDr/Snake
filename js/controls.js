@@ -1,27 +1,10 @@
 document.addEventListener("keydown", e => {
-  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-    e.preventDefault();
-  }
+  e.preventDefault();
+  const s = game.snake;
 
-  if (!game || !game.snake) return;
-
-  if (e.key === "ArrowUp" && game.snake.dy === 0) {
-    game.snake.dx = 0;
-    game.snake.dy = -1;
-  }
-
-  if (e.key === "ArrowDown" && game.snake.dy === 0) {
-    game.snake.dx = 0;
-    game.snake.dy = 1;
-  }
-
-  if (e.key === "ArrowLeft" && game.snake.dx === 0) {
-    game.snake.dx = -1;
-    game.snake.dy = 0;
-  }
-
-  if (e.key === "ArrowRight" && game.snake.dx === 0) {
-    game.snake.dx = 1;
-    game.snake.dy = 0;
-  }
+  if (e.key === " ") game.paused = !game.paused;
+  if (e.key === "ArrowUp" && s.dy === 0) { s.dx=0; s.dy=-1; }
+  if (e.key === "ArrowDown" && s.dy === 0) { s.dx=0; s.dy=1; }
+  if (e.key === "ArrowLeft" && s.dx === 0) { s.dx=-1; s.dy=0; }
+  if (e.key === "ArrowRight" && s.dx === 0) { s.dx=1; s.dy=0; }
 });

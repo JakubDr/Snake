@@ -1,28 +1,18 @@
 class Food {
-  constructor(size, width, height) {
-    this.size = size;
-    this.width = width;
-    this.height = height;
+  constructor() {
+    this.size = 20;
     this.spawn();
   }
 
   spawn() {
-    this.x =
-      Math.floor(Math.random() * (this.width / this.size)) * this.size;
-    this.y =
-      Math.floor(Math.random() * (this.height / this.size)) * this.size;
+    this.x = Math.floor(Math.random() * 25) * 20;
+    this.y = Math.floor(Math.random() * 25) * 20;
   }
 
   draw(ctx) {
     ctx.fillStyle = "red";
     ctx.beginPath();
-    ctx.arc(
-      this.x + this.size / 2,
-      this.y + this.size / 2,
-      this.size / 2,
-      0,
-      Math.PI * 2
-    );
+    ctx.arc(this.x + 10, this.y + 10, 10, 0, Math.PI * 2);
     ctx.fill();
   }
 }
