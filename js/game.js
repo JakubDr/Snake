@@ -8,7 +8,6 @@ function gameLoop() {
   drawFood(ctx);
   drawSnake(ctx);
 
-  // sežrání jídla
   if (snake[0].x === food.x && snake[0].y === food.y) {
     snake.push({ ...snake[snake.length - 1] });
     food = randomFood();
