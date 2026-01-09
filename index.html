@@ -10,22 +10,31 @@
 <h1>🐍 Snake Game++</h1>
 
 <div id="menu">
-  <select id="difficulty">
-    <option value="160">Lehká</option>
-    <option value="120" selected>Střední</option>
-    <option value="80">Těžká</option>
-  </select>
+  <label>Obtížnost:
+    <select id="difficulty">
+      <option value="160">Lehká</option>
+      <option value="120" selected>Střední</option>
+      <option value="80">Těžká</option>
+    </select>
+  </label>
 
-  <select id="skin">
-    <option value="#00ff99">Zelený</option>
-    <option value="#00bfff">Modrý</option>
-    <option value="#ff00ff">Fialový</option>
-  </select>
+  <label>Skin hada:
+    <select id="skin">
+      <option value="#00ff99">Zelený</option>
+      <option value="#00bfff">Modrý</option>
+      <option value="#ff00ff">Fialový</option>
+    </select>
+  </label>
 
-  <select id="mode">
-    <option value="classic">Klasický</option>
-    <option value="walls">Překážky</option>
-  </select>
+  <label>Mód:
+    <select id="mode">
+      <option value="classic">Klasický</option>
+      <option value="walls">Překážky</option>
+    </select>
+  </label>
+
+  <button id="restartBtn">Restart</button>
+  <button id="pauseBtn">Pauza</button>
 </div>
 
 <canvas id="gameCanvas" width="500" height="500"></canvas>
@@ -33,7 +42,6 @@
 <div id="info">
   Skóre: <span id="score">0</span> |
   Rekord: <span id="best">0</span>
-  <button onclick="game.restart()">Restart</button>
 </div>
 
 <p>⬅⬆⬇➡ pohyb | ␣ pauza</p>

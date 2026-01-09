@@ -24,7 +24,7 @@ class Snake {
 
   draw(ctx) {
     ctx.fillStyle = this.color;
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 15;
     ctx.shadowColor = this.color;
     this.body.forEach(p =>
       ctx.fillRect(p.x, p.y, this.size, this.size)
@@ -33,10 +33,11 @@ class Snake {
   }
 
   eat(obj) {
-    if (this.body[0].x === obj.x && this.body[0].y === obj.y) {
-      this.grow = true;
-      return true;
-    }
-    return false;
+    return this.body[0].x === obj.x && this.body[0].y === obj.y;
+  }
+
+  checkSelfCollision() {
+    const [head, ...rest] = this.body;
+    return rest.some(p => p.x === head.x && p.y === head.y);
   }
 }

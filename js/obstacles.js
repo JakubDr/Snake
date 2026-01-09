@@ -7,9 +7,12 @@ class Obstacles {
 
   draw(ctx) {
     ctx.fillStyle = "gray";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "gray";
     this.blocks.forEach(b =>
       ctx.fillRect(b.x, b.y, 20, 20)
     );
+    ctx.shadowBlur = 0;
   }
 
   hit(snake) {
