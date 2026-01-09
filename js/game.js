@@ -1,17 +1,72 @@
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+class Game {
+  constructor() {
+    this.canvas = document.getElementById("gameCanvas");
+    this.ctx = this.canvas.getContext("2d");
 
-function gameLoop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.snake = new Snake();
+    this.food = new Food();
 
-  moveSnake();
-  drawFood(ctx);
-  drawSnake(ctx);
+    this.score = 0;
+    this.bestScore = localStorage.getItem("bestScore") || 0;
 
-  if (snake[0].x === food.x && snake[0].y === food.y) {
-    snake.push({ ...snake[snake.length - 1] });
-    food = randomFood();
+    this.interval = 120;
+    this.paused = false;
+
+    this.loop();
+  }
+
+  loop() {
+    this.timer = setInterval(() => this.update(), this.interval);
+  }
+
+  setSpeed(speed) {
+    clearInterval(this.timer);
+    this.interval = speed;
+    this.loop();
+  }
+
+  togglePause() {
+    this.paused = !this.paused;
+  }
+
+  restart() {
+    clearInterval(this.timer);
+    this.snake.reset();
+    this.score = 0;
+    this.paused = false;
+    this.loop();
+  }
+
+  update() {
+    if (this.paused) return;
+
+    this.ctx.clearRect(0, 0, 400, 400);
+
+    this.snake.update();
+
+    if (this.snake.body[0].x === this.food.position.x &&
+        this.snake.body[0].y === this.food.position.y) {
+      this.snake.grow = true;
+      this.food.spawn();
+      this.score++;
+    }
+
+    if (this.snake.checkCollision(400, 400)) {
+      if (this.score > this.bestScore) {
+        localStorage.setItem("bestScore", this.score);
+      }
+      alert("Konec hry!");
+      this.restart();
+      return;
+    }
+
+    this.food.draw(this.ctx);
+    this.snake.draw(this.ctx);
+
+    document.getElementById("score").textContent = this.score;
+    document.getElementById("bestScore").textContent =
+      localStorage.getItem("bestScore") || 0;
   }
 }
 
-setInterval(gameLoop, 150);
+const game = new Game();
