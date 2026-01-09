@@ -1,72 +1,31 @@
-class Game {
-  constructor() {
-    this.canvas = document.getElementById("gameCanvas");
-    this.ctx = this.canvas.getContext("2d");
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
-    this.snake = new Snake();
-    this.food = new Food();
+const size = 25;
+const snake = new Snake();
+let food = new Food();
+let score = 0;
 
-    this.score = 0;
-    this.bestScore = localStorage.getItem("bestScore") || 0;
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    this.interval = 120;
-    this.paused = false;
+  snake.move();
 
-    this.loop();
+  // kolize s jídlem
+  if (snake.body[0].x === food.x && snake.body[0].y === food.y) {
+    snake.grow();
+    food = new Food();
+    score++;
   }
 
-  loop() {
-    this.timer = setInterval(() => this.update(), this.interval);
-  }
+  snake.draw(ctx, size);
+  food.draw(ctx, size);
 
-  setSpeed(speed) {
-    clearInterval(this.timer);
-    this.interval = speed;
-    this.loop();
-  }
+  // skóre
+  ctx.fillStyle = "#e5e7eb";
+  ctx.fillText("Skóre: " + score, 10, 20);
 
-  togglePause() {
-    this.paused = !this.paused;
-  }
-
-  restart() {
-    clearInterval(this.timer);
-    this.snake.reset();
-    this.score = 0;
-    this.paused = false;
-    this.loop();
-  }
-
-  update() {
-    if (this.paused) return;
-
-    this.ctx.clearRect(0, 0, 400, 400);
-
-    this.snake.update();
-
-    if (this.snake.body[0].x === this.food.position.x &&
-        this.snake.body[0].y === this.food.position.y) {
-      this.snake.grow = true;
-      this.food.spawn();
-      this.score++;
-    }
-
-    if (this.snake.checkCollision(400, 400)) {
-      if (this.score > this.bestScore) {
-        localStorage.setItem("bestScore", this.score);
-      }
-      alert("Konec hry!");
-      this.restart();
-      return;
-    }
-
-    this.food.draw(this.ctx);
-    this.snake.draw(this.ctx);
-
-    document.getElementById("score").textContent = this.score;
-    document.getElementById("bestScore").textContent =
-      localStorage.getItem("bestScore") || 0;
-  }
+  setTimeout(gameLoop, 120);
 }
 
-const game = new Game();
+gameLoop();

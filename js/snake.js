@@ -1,55 +1,31 @@
 class Snake {
   constructor() {
-    this.reset();
+    this.body = [{ x: 10, y: 10 }];
+    this.dx = 1;
+    this.dy = 0;
   }
 
-  reset() {
-    this.body = [{ x: 200, y: 200 }];
-    this.direction = { x: 20, y: 0 };
-    this.grow = false;
-  }
-
-  setDirection(x, y) {
-    if (-x !== this.direction.x && -y !== this.direction.y) {
-      this.direction = { x, y };
-    }
-  }
-
-  update() {
+  move() {
     const head = {
-      x: this.body[0].x + this.direction.x,
-      y: this.body[0].y + this.direction.y
+      x: this.body[0].x + this.dx,
+      y: this.body[0].y + this.dy
     };
-
     this.body.unshift(head);
-
-    if (!this.grow) {
-      this.body.pop();
-    } else {
-      this.grow = false;
-    }
+    this.body.pop();
   }
 
-  draw(ctx) {
-    this.body.forEach((segment, index) => {
-      ctx.fillStyle = index === 0 ? "#7CFF00" : "#3FA700";
-      ctx.fillRect(segment.x, segment.y, 18, 18);
+  grow() {
+    const tail = this.body[this.body.length - 1];
+    this.body.push({ ...tail });
+  }
+
+  draw(ctx, size) {
+    this.body.forEach((part, i) => {
+      ctx.fillStyle = i === 0 ? "#22c55e" : "#16a34a";
+      ctx.shadowBlur = i === 0 ? 15 : 5;
+      ctx.shadowColor = "#22c55e";
+      ctx.fillRect(part.x * size, part.y * size, size, size);
     });
-  }
-
-  checkCollision(width, height) {
-    const head = this.body[0];
-
-    if (
-      head.x < 0 || head.y < 0 ||
-      head.x >= width || head.y >= height
-    ) return true;
-
-    for (let i = 1; i < this.body.length; i++) {
-      if (head.x === this.body[i].x && head.y === this.body[i].y) {
-        return true;
-      }
-    }
-    return false;
+    ctx.shadowBlur = 0;
   }
 }
