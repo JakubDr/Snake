@@ -1,19 +1,17 @@
 class Obstacles {
-  constructor(count = 5) { 
-    this.size = 20;
-    this.blocks = [];
-    for (let i = 0; i < count; i++) {
-      const x = Math.floor(Math.random() * 25) * this.size;
-      const y = Math.floor(Math.random() * 25) * this.size;
-      this.blocks.push({ x, y });
-    }
+  constructor() {
+    this.blocks = [
+      {x:200,y:200},{x:220,y:200},{x:240,y:200}
+    ];
   }
 
   draw(ctx) {
     ctx.fillStyle = "gray";
     ctx.shadowBlur = 10;
     ctx.shadowColor = "gray";
-    this.blocks.forEach(b => ctx.fillRect(b.x, b.y, this.size, this.size));
+    this.blocks.forEach(b =>
+      ctx.fillRect(b.x, b.y, 20, 20)
+    );
     ctx.shadowBlur = 0;
   }
 
