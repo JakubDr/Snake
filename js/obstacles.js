@@ -11,19 +11,14 @@ class Obstacles {
       { x: 240, y: 220 },
     ];
   }
-
-  draw(ctx) {
-    // ctx je 2D kontext canvasu, pomocí něj kreslím tvary
-    ctx.fillStyle = "gray";      
-    ctx.shadowBlur = 10;     
-    ctx.shadowColor = "gray";    
+draw(ctx) {
+  // ctx je 2D kontext canvasu, pomocí něj kreslím tvary
+  ctx.fillStyle = "red";    // viditelná barva
+  this.blocks.forEach(b =>
     // vykreslí každý blok jako čtverec o velikosti 20x20
-    this.blocks.forEach(b =>
-      ctx.fillRect(b.x, b.y, 20, 20)
-    );
-
-    ctx.shadowBlur = 0;          // po vykreslení vypne stín
-  }
+    ctx.fillRect(b.x, b.y, 20, 20)
+  );
+}
 
   hit(snake) {
     // zjistí, jestli hlava hada narazila do některé překážky
@@ -33,6 +28,7 @@ class Obstacles {
     );
   }
 }
+
 
 
 
