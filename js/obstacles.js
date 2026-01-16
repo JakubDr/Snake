@@ -11,7 +11,7 @@ class Obstacles {
   draw(ctx) {
     // ctx je 2D kontext canvasu, pomocí něj kreslím tvary
     ctx.fillStyle = "gray";      
-    ctx.shadowBlur = 10;         /
+    ctx.shadowBlur = 10;     
     ctx.shadowColor = "gray";    
     // vykreslí každý blok jako čtverec o velikosti 20x20
     this.blocks.forEach(b =>
@@ -29,5 +29,6 @@ class Obstacles {
     );
   }
 }
+
 
 
