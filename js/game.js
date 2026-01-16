@@ -31,27 +31,25 @@ class Game {
       .addEventListener("click", () => this.togglePause());
   }
 
-  start() {
-    // vytvoření nových objektů pro novou hru
-    this.snake = new Snake(this.skinSelect.value);
-    this.food = new Food();
-    this.bonus = null;
+ start() {
+  this.snake = new Snake(this.skinSelect.value);
+  this.food = new Food();
+  this.bonus = null;
 
-    // podle módu se zapnou nebo vypnou překážky
-    this.obstacles = this.modeSelect.value === "walls"
-      ? new Obstacles()
-      : null;
-
-    // reset skóre
-    this.score = 0;
-
-    // spuštění herní smyčky podle zvolené obtížnosti
-    clearInterval(this.loop);
-    this.loop = setInterval(
-      () => this.update(),
-      parseInt(this.difficultySelect.value)
-    );
+  // vytvořím překážeky
+  this.obstacles = [];
+  if (this.modeSelect.value === "walls") {
+    for (let i = 0; i < 10; i++) { // 10 překážek
+      this.obstacles.push(new Obstacles(1)); // každý Obstacles má 1 blok
+    }
   }
+
+  this.score = 0;
+
+  clearInterval(this.loop);
+  this.loop = setInterval(() => this.update(), parseInt(this.difficultySelect.value));
+}
+
 
   update() {
     // pokud je hra pozastavená, nic se neděje
@@ -80,14 +78,15 @@ class Game {
     }
 
     // kontrola kolizí
-    if (
-      this.snake.body[0].x < 0 || this.snake.body[0].x >= 500 ||
-      this.snake.body[0].y < 0 || this.snake.body[0].y >= 500 ||
-      (this.obstacles && this.obstacles.hit(this.snake)) ||
-      this.snake.checkSelfCollision()
-    ) {
-      this.end();
-    }
+   if (
+  this.snake.body[0].x < 0 || this.snake.body[0].x >= 500 ||
+  this.snake.body[0].y < 0 || this.snake.body[0].y >= 500 ||
+  (this.obstacles && this.obstacles.some(obs => obs.hit(this.snake))) ||
+  this.snake.checkSelfCollision()
+) {
+  this.end();
+}
+
 
     // vykreslení hry a aktualizace skóre
     this.draw();
@@ -115,9 +114,10 @@ class Game {
     // vykreslení všech herních objektů
     this.food.draw(this.ctx);
     if (this.bonus) this.bonus.draw(this.ctx);
-    if (this.obstacles) this.obstacles.draw(this.ctx);
-    this.snake.draw(this.ctx);
-  }
+    if (this.obstacles) {
+  this.obstacles.forEach(obs => obs.draw(this.ctx));
+}
+
 
   end() {
     // ukončení hry a uložení nejlepšího skóre
@@ -143,3 +143,4 @@ class Game {
 
 // vytvoření hry
 const game = new Game();
+
