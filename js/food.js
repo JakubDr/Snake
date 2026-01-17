@@ -1,17 +1,23 @@
 class Food {
- // třída pro jídlo 
-
   constructor() {
-    this.size = 20;
+    this.size = 20; 
     // velikost jednoho políčka
-
-    this.spawn();
+    this.spawn(); 
+    // při vytvoření jídla se rovnou vygeneruje pozice
   }
 
-  spawn() {
-    // vygeneruje náhodnou pozici 
-    this.x = Math.floor(Math.random() * 25) * 20;
-    this.y = Math.floor(Math.random() * 25) * 20;
+  spawn(obstacles = []) {
+    // vygeneruje náhodnou pozici jídla, která není na překážce
+    let valid = false;
+
+    while (!valid) {
+      // náhodná pozice po 20 px
+      this.x = Math.floor(Math.random() * 25) * 20;
+      this.y = Math.floor(Math.random() * 25) * 20;
+
+      // kontrola, že náhodná pozice není na žádné překážce
+      valid = !obstacles.some(b => b.x === this.x && b.y === this.y);
+    }
   }
 
   draw(ctx) {
