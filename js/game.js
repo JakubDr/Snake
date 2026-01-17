@@ -71,10 +71,12 @@ class Game {
 }
 
 
-    // náhodné vytvoření bonusového jídla
-    if (Math.random() < 0.005 && !this.bonus) {
-      this.bonus = new BonusFood();
-    }
+  // náhodné vytvoření bonusového jídla
+if (Math.random() < 0.005 && !this.bonus) {
+  // předáme překážky, pokud existují
+  this.bonus = new BonusFood(this.obstacles ? this.obstacles.blocks : []);
+}
+
 
     // snědení bonusového jídla
     if (this.bonus && this.snake.eat(this.bonus)) {
@@ -147,4 +149,5 @@ class Game {
 
 // vytvoření hry
 const game = new Game();
+
 
