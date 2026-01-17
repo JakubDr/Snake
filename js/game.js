@@ -61,11 +61,15 @@ class Game {
     this.snake.move();
 
     // kontrola snědení normálního jídla
-    if (this.snake.eat(this.food)) {
-      this.snake.grow = true;
-      this.food.spawn();
-      this.score++;
-    }
+   if (this.snake.eat(this.food)) {
+  this.snake.grow = true;
+
+  // předáme pole překážek (nebo prázdné pole, pokud žádné nejsou)
+  this.food.spawn(this.obstacles ? this.obstacles.blocks : []);
+
+  this.score++;
+}
+
 
     // náhodné vytvoření bonusového jídla
     if (Math.random() < 0.005 && !this.bonus) {
@@ -143,3 +147,4 @@ class Game {
 
 // vytvoření hry
 const game = new Game();
+
